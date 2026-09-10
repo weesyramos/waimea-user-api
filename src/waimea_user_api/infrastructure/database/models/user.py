@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy import Date, ForeignKey, Integer, String
+from sqlalchemy import Identity, Date, ForeignKey, BigInteger, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from waimea_user_api.infrastructure.database.base import Base
@@ -11,12 +11,16 @@ from .role import Role
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(
+        BigInteger,
+        Identity(always=True),
+        primary_key=True,
+    )
     name: Mapped[str] = mapped_column(String, nullable=False)
     email: Mapped[str] = mapped_column(String, nullable=False)
     password: Mapped[str] = mapped_column(String, nullable=False)
     role_id: Mapped[int] = mapped_column(
-        Integer,
+        BigInteger,
         ForeignKey("roles.id"),
         nullable=False,
     )
