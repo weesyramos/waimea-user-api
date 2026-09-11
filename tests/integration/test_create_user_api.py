@@ -4,7 +4,6 @@ import httpx
 import pytest
 from pwdlib import PasswordHash
 from sqlalchemy import delete, select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from waimea_user_api.infrastructure.database.models.role import Role
 from waimea_user_api.infrastructure.database.models.user import User
@@ -58,9 +57,7 @@ async def test_create_user_with_generated_password():
 
         # Confirma que o usuário foi realmente persistido.
         async with async_session() as session:
-            result = await session.execute(
-                select(User).where(User.email == email)
-            )
+            result = await session.execute(select(User).where(User.email == email))
 
             user = result.scalar_one()
 
@@ -79,16 +76,13 @@ async def test_create_user_with_generated_password():
     finally:
         # Remove os dados criados pelo teste.
         async with async_session() as session:
-            await session.execute(
-                delete(User).where(User.email == email)
-            )
+            await session.execute(delete(User).where(User.email == email))
 
-            await session.execute(
-                delete(Role).where(Role.id == role_id)
-            )
+            await session.execute(delete(Role).where(Role.id == role_id))
 
             await session.commit()
-            
+
+
 @pytest.mark.asyncio
 async def test_create_user_with_provided_password():
     role_description = f"test-{uuid4()}"
@@ -132,9 +126,7 @@ async def test_create_user_with_provided_password():
         assert response_data["generated_password"] is None
 
         async with async_session() as session:
-            result = await session.execute(
-                select(User).where(User.email == email)
-            )
+            result = await session.execute(select(User).where(User.email == email))
 
             user = result.scalar_one()
 
@@ -147,12 +139,8 @@ async def test_create_user_with_provided_password():
 
     finally:
         async with async_session() as session:
-            await session.execute(
-                delete(User).where(User.email == email)
-            )
+            await session.execute(delete(User).where(User.email == email))
 
-            await session.execute(
-                delete(Role).where(Role.id == role_id)
-            )
+            await session.execute(delete(Role).where(Role.id == role_id))
 
             await session.commit()

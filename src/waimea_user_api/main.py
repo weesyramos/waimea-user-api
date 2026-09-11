@@ -6,7 +6,6 @@ from waimea_user_api.presentation.api.exception_handlers import (
 )
 from waimea_user_api.presentation.api.users.controller import router as users_router
 
-
 app = FastAPI()
 
 

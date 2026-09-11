@@ -7,7 +7,6 @@ from sqlalchemy.ext.asyncio import (
 
 from waimea_user_api.config import settings
 
-
 DATABASE_URL = (
     f"postgresql+asyncpg://"
     f"{settings.database_user}:{settings.database_password}"

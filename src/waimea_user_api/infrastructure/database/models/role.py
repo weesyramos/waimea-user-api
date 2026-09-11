@@ -1,4 +1,4 @@
-from sqlalchemy import Identity, BigInteger, String
+from sqlalchemy import BigInteger, Identity, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from waimea_user_api.infrastructure.database.base import Base

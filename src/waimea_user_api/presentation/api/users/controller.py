@@ -11,7 +11,6 @@ from waimea_user_api.presentation.api.users.schemas import (
     CreateUserResponse,
 )
 
-
 router = APIRouter(prefix="/users", tags=["Users"])
 
 

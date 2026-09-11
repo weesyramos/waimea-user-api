@@ -3,11 +3,11 @@ from unittest.mock import AsyncMock, Mock
 import pytest
 from pwdlib import PasswordHash
 
+from waimea_user_api.application.exceptions import UserAlreadyExistsError
 from waimea_user_api.application.use_cases.create_user import (
     CreateUserData,
     CreateUserUseCase,
 )
-from waimea_user_api.application.exceptions import UserAlreadyExistsError
 from waimea_user_api.domain.entities.user import User
 
 
@@ -58,7 +58,8 @@ async def test_create_user_with_provided_password():
 
     unit_of_work.commit.assert_awaited_once()
     unit_of_work.rollback.assert_not_awaited()
-    
+
+
 @pytest.mark.asyncio
 async def test_create_user_without_password_generates_password():
     user_repository = Mock()
@@ -108,7 +109,8 @@ async def test_create_user_without_password_generates_password():
 
     unit_of_work.commit.assert_awaited_once()
     unit_of_work.rollback.assert_not_awaited()
-    
+
+
 @pytest.mark.asyncio
 async def test_create_user_with_existing_email():
     user_repository = Mock()
@@ -148,14 +150,13 @@ async def test_create_user_with_existing_email():
     user_repository.create.assert_not_awaited()
     unit_of_work.commit.assert_not_awaited()
     unit_of_work.rollback.assert_awaited_once()
-    
+
+
 @pytest.mark.asyncio
 async def test_create_user_rolls_back_when_repository_fails():
     user_repository = Mock()
     user_repository.find_by_email = AsyncMock(return_value=None)
-    user_repository.create = AsyncMock(
-        side_effect=RuntimeError("Database error")
-    )
+    user_repository.create = AsyncMock(side_effect=RuntimeError("Database error"))
 
     unit_of_work = Mock()
     unit_of_work.commit = AsyncMock()

@@ -7,7 +7,6 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from waimea_user_api.config import settings
 from waimea_user_api.infrastructure.database.base import Base
-from waimea_user_api.infrastructure.database.models import Role, User
 
 config = context.config
 

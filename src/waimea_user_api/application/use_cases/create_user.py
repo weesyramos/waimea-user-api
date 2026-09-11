@@ -4,10 +4,10 @@ from datetime import date
 
 from pwdlib import PasswordHash
 
+from waimea_user_api.application.exceptions import UserAlreadyExistsError
 from waimea_user_api.domain.entities.user import User
 from waimea_user_api.domain.repositories.unit_of_work import UnitOfWork
 from waimea_user_api.domain.repositories.user_repository import UserRepository
-from waimea_user_api.application.exceptions import UserAlreadyExistsError
 
 
 @dataclass
@@ -40,9 +40,7 @@ class CreateUserUseCase:
             existing_user = await self._user_repository.find_by_email(data.email)
 
             if existing_user is not None:
-                raise UserAlreadyExistsError(
-                    "User with this email already exists"
-                )
+                raise UserAlreadyExistsError("User with this email already exists")
 
             generated_password = None
             password = data.password

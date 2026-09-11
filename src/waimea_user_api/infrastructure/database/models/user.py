@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy import Identity, Date, ForeignKey, BigInteger, String
+from sqlalchemy import BigInteger, Date, ForeignKey, Identity, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from waimea_user_api.infrastructure.database.base import Base

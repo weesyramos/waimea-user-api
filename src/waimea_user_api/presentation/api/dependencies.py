@@ -14,7 +14,7 @@ from waimea_user_api.infrastructure.repositories.sqlalchemy_user_repository impo
 )
 
 
-async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
+async def get_db_session() -> AsyncGenerator[AsyncSession]:
     async with async_session() as session:
         try:
             yield session
