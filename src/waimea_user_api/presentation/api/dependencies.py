@@ -5,8 +5,10 @@ from pwdlib import PasswordHash
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from waimea_user_api.application.use_cases.create_user import CreateUserUseCase
+from waimea_user_api.domain.repositories.unit_of_work import UnitOfWork
 from waimea_user_api.domain.repositories.user_repository import UserRepository
 from waimea_user_api.infrastructure.database.session import async_session
+from waimea_user_api.infrastructure.database.unit_of_work import SqlAlchemyUnitOfWork
 from waimea_user_api.infrastructure.repositories.sqlalchemy_user_repository import (
     SqlAlchemyUserRepository,
 )
@@ -27,6 +29,12 @@ def get_user_repository(
     return SqlAlchemyUserRepository(session)
 
 
+def get_unit_of_work(
+    session: AsyncSession = Depends(get_db_session),
+) -> UnitOfWork:
+    return SqlAlchemyUnitOfWork(session)
+
+
 def get_password_hasher() -> PasswordHash:
     return PasswordHash.recommended()
 
@@ -34,8 +42,10 @@ def get_password_hasher() -> PasswordHash:
 def get_create_user_use_case(
     user_repository: UserRepository = Depends(get_user_repository),
     password_hasher: PasswordHash = Depends(get_password_hasher),
+    unit_of_work: UnitOfWork = Depends(get_unit_of_work),
 ) -> CreateUserUseCase:
     return CreateUserUseCase(
         user_repository=user_repository,
         password_hasher=password_hasher,
+        unit_of_work=unit_of_work,
     )
