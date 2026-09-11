@@ -1,6 +1,6 @@
 import secrets
 from dataclasses import dataclass
-from datetime import date
+from datetime import UTC, datetime
 
 from pwdlib import PasswordHash
 
@@ -56,7 +56,7 @@ class CreateUserUseCase:
                 email=data.email,
                 password=hashed_password,
                 role_id=data.role_id,
-                created_at=date.today(),
+                created_at=datetime.now(UTC).date(),
             )
 
             created_user = await self._user_repository.create(user)
