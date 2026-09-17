@@ -34,7 +34,7 @@ O `SELECT * FROM users` também traz o campo de senha, que depois é colocado no
 
 3.Volume de dados
 
-O robô busca todos os usuários de uma vez com `SELECT * FROM users`. Isso pode funcionar com poucos registros, mas pode causar problemas de memória e desempenho conforme a tabela crescer. Seria interessante processar os dados em lotes ou utilizar streaming.
+O robô busca todos os usuários de uma vez com `SELECT * FROM users`. Isso pode funcionar com poucos registros, mas pode causar problemas de memória e desempenho conforme a tabela crescer. Seria interessante processar os dados em lotes.
 
 4.Geração dos arquivos
 
